@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Open/Close Account">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <CheckBox layoutX="418.0" layoutY="32.0" mnemonicParsing="false" text="Direct Deposit" />
+                        <CheckBox layoutX="418.0" layoutY="75.0" mnemonicParsing="false" text="Loyal Customer" />
+                        <RadioButton layoutX="281.0" layoutY="14.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="91.0" text="Checking" />
+                        <RadioButton layoutX="281.0" layoutY="50.0" mnemonicParsing="false" text="Savings" />
+                        <RadioButton layoutX="281.0" layoutY="84.0" mnemonicParsing="false" text="Money Market" />
+                        <Button layoutX="299.0" layoutY="126.0" mnemonicParsing="false" text="Open Account" />
+                        <Button layoutX="419.0" layoutY="126.0" mnemonicParsing="false" text="Close Account" />
+                        <Button layoutX="535.0" layoutY="126.0" mnemonicParsing="false" text="Clear" />
+                        <TextField layoutX="101.0" layoutY="126.0" />
+                        <TextField layoutX="101.0" layoutY="19.0" />
+                        <TextField layoutX="101.0" layoutY="54.0" />
+                        <Label layoutX="32.0" layoutY="23.0" prefWidth="59.0" text="First Name" />
+                        <Label layoutX="32.0" layoutY="59.0" text="Last Name" />
+                        <Label layoutX="40.0" layoutY="131.0" text="Balance" />
+                        <Label layoutX="33.0" layoutY="93.0" text="Date Open" />
+                        <TextField layoutX="101.0" layoutY="88.0" prefHeight="27.0" prefWidth="42.0" promptText="mm" />
+                        <TextField layoutX="160.0" layoutY="88.0" prefHeight="27.0" prefWidth="42.0" promptText="dd" />
+                        <TextField layoutX="220.0" layoutY="88.0" prefHeight="27.0" prefWidth="42.0" promptText="yyyy" />
+                        <Label layoutX="148.0" layoutY="93.0" prefHeight="17.0" prefWidth="0.0" text="/" />
+                        <Label layoutX="208.0" layoutY="92.0" prefHeight="17.0" prefWidth="0.0" text="/" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Deposit/Withdraw Funds">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="21.0" layoutY="21.0" text="First Name" />
+                        <Label layoutX="21.0" layoutY="67.0" text="Last Name" />
+                        <Label layoutX="30.0" layoutY="111.0" text="Amount" />
+                        <Button layoutX="322.0" layoutY="105.0" mnemonicParsing="false" text="Deposit" />
+                        <Button layoutX="427.0" layoutY="105.0" mnemonicParsing="false" text="Withdraw" />
+                        <RadioButton layoutX="315.0" layoutY="29.0" mnemonicParsing="false" text="Checking" />
+                        <RadioButton layoutX="315.0" layoutY="67.0" mnemonicParsing="false" text="Savings" />
+                        <RadioButton layoutX="427.0" layoutY="29.0" mnemonicParsing="false" text="Money Market" />
+                        <TextField layoutX="92.0" layoutY="16.0" />
+                        <TextField layoutX="92.0" layoutY="62.0" />
+                        <TextField layoutX="92.0" layoutY="107.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Account Database">
+              <content> 
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField layoutX="2.0" layoutY="-14.0" prefHeight="78.0" prefWidth="600.0" text="Select from Command Menu" />
+                        <MenuBar layoutX="2.0" layoutY="64.0" prefHeight="29.0" prefWidth="600.0">
+                          <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Import" />
+                                    <MenuItem mnemonicParsing="false" text="Export" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Print">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Accounts" />
+                                    <MenuItem mnemonicParsing="false" text="Statements by Date" />
+                                    <MenuItem mnemonicParsing="false" text="Statements by Last Name" />
+                              </items>
+                            </Menu>
+                          </menus>
+                        </MenuBar>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </top>
+   <center>
+      <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
