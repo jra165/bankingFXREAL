@@ -16,6 +16,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Transaction Manager");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			AccountDatabase db = new AccountDatabase();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
