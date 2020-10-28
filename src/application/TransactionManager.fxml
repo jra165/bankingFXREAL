@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
@@ -64,28 +65,33 @@
             </content>
           </Tab>
             <Tab text="Account Database">
-              <content> 
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextField layoutX="2.0" layoutY="-14.0" prefHeight="78.0" prefWidth="600.0" text="Select from Command Menu" />
-                        <MenuBar layoutX="2.0" layoutY="64.0" prefHeight="29.0" prefWidth="600.0">
-                          <menus>
-                            <Menu mnemonicParsing="false" text="File">
-                              <items>
-                                <MenuItem mnemonicParsing="false" text="Import" />
-                                    <MenuItem mnemonicParsing="false" text="Export" />
-                              </items>
-                            </Menu>
-                            <Menu mnemonicParsing="false" text="Print">
-                              <items>
-                                <MenuItem mnemonicParsing="false" text="Accounts" />
-                                    <MenuItem mnemonicParsing="false" text="Statements by Date" />
-                                    <MenuItem mnemonicParsing="false" text="Statements by Last Name" />
-                              </items>
-                            </Menu>
-                          </menus>
-                        </MenuBar>
-                     </children></AnchorPane>
+              <content>
+                  <VBox>
+                     <children> 
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextField layoutX="2.0" layoutY="-14.0" prefHeight="78.0" prefWidth="600.0" text="Select from Command Menu" />
+                              <MenuBar layoutX="2.0" layoutY="64.0" prefHeight="29.0" prefWidth="600.0">
+                                <menus>
+                                  <Menu mnemonicParsing="false" text="File">
+                                    <items>
+                                      <MenuItem mnemonicParsing="false" text="Import" />
+                                          <MenuItem mnemonicParsing="false" text="Export" />
+                                    </items>
+                                  </Menu>
+                                  <Menu mnemonicParsing="false" text="Print">
+                                    <items>
+                                      <MenuItem mnemonicParsing="false" text="Accounts" />
+                                          <MenuItem mnemonicParsing="false" text="Statements by Date" />
+                                          <MenuItem mnemonicParsing="false" text="Statements by Last Name" />
+                                    </items>
+                                  </Menu>
+                                </menus>
+                              </MenuBar>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
               </content>
             </Tab>
         </tabs>
