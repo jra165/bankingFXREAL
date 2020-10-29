@@ -236,23 +236,26 @@ public class MainController {
 
     @FXML
     void printAcc(ActionEvent event) {
-
+    	//String accInfo = db.printAccounts();
+    	//messageArea.appendText(accInfo);
     }
 
     @FXML
     void printByDate(ActionEvent event) {
-
+    	//String accInfo = db.printByDateOpen();
+    	//messageArea.appendText(accInfo);
     }
 
     @FXML
     void printByLastName(ActionEvent event) {
-
+    	//String accInfo = db.printByLastName();
+    	//messageArea.appendText(accInfo);
     }
     
     @FXML
     void selectChecking(ActionEvent event) {
-    	directDep.setDisable(true);
-    	isLoyal.setDisable(false);
+    	//directDep.setDisable(true);
+    	//isLoyal.setDisable(false);
     }
 
     @FXML
