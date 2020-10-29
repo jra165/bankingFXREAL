@@ -102,6 +102,25 @@ public class Savings extends Account {
 	}
 	
 	/**
+	 * Converts Savings account to its modified String representation
+	 * @return accountInfo The modified String representation of Savings object
+	 */
+	@Override
+	public String toStringExport() {
+		
+		String accountInfo;
+		
+		if (isLoyal) {
+			accountInfo = "S," + super.toStringExport() + ",true";
+		}
+		else {
+			accountInfo = "S," + super.toStringExport() + ",false";
+		}
+		
+		return accountInfo;
+	}
+	
+	/**
 	 * Checks if Savings is equivalent to obj being compared to.
 	 * Checks if obj instanceof Savings and if all data fields are equivalent
 	 * @param obj The object being compared to a particular Savings account

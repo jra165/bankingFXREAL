@@ -1,6 +1,16 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -59,7 +69,7 @@ public class MainController {
     	balance.clear();
     	tgOpenClose.selectToggle(null);
     	directDep.setSelected(false);
-    	directDep.setSelected(false);
+    	directDep.setDisable(false);
     	isLoyal.setSelected(false);
     	isLoyal.setDisable(false);
     }
@@ -147,18 +157,127 @@ public class MainController {
 		Stage stage = new Stage();
 		File targeFile = chooser.showSaveDialog(stage); //get the reference of the target file
 		//write code to write to the file.
+		
+		
+		try {
+			
+			BufferedWriter bf = new BufferedWriter(new FileWriter(targeFile));
+			bf.write(db.printFormattedAccounts());
+			bf.flush();
+			bf.close();
+			
+			
+		} catch (IOException e) {
+    		messageArea.appendText("Unable to export transactions to file.");
+		}
+		
+		
     }
-
+    
+    
     @FXML
-    void importFile(ActionEvent event) {
+    void importFile(ActionEvent event) throws FileNotFoundException{
     	FileChooser chooser = new FileChooser();
 		chooser.setTitle("Open Source File for the Import");
 		chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
 				new ExtensionFilter("All Files", "*.*"));
 		Stage stage = new Stage();
 		File sourceFile = chooser.showOpenDialog(stage); //get the reference of the source file
-		//write code to read from the file.
-    }
+		
+		Scanner reader;
+		reader = new Scanner(sourceFile);
+		
+		String line = null;
+		Scanner scanner = null;
+		
+		while((line = reader.nextLine()) != null) {
+				
+			scanner = new Scanner(line);
+			scanner.useDelimiter(",");
+			
+			String fName;
+			String lName;
+			double balance;
+			String date ;
+			boolean special;
+			int withdrawals;
+			
+			
+			while(scanner.hasNext()) {
+				
+				try {
+					
+					String accountType = scanner.next();
+					
+					if(accountType.equals("S")) {
+							
+							fName = scanner.next();
+							lName = scanner.next();
+							balance = scanner.nextDouble();
+							date = scanner.next();
+							special = scanner.nextBoolean();
+							
+							Profile profile = new Profile(fName, lName);
+							Date dateOpen = new Date(date);
+							
+							Savings savings = new Savings(profile, balance, dateOpen, special);
+							db.add(savings);
+							
+							
+					}
+					
+					if(accountType.equals("C")) {
+						
+						fName = scanner.next();
+						lName = scanner.next();
+						balance = scanner.nextDouble();
+						date = scanner.next();
+						special = scanner.nextBoolean();
+						
+						Profile profile = new Profile(fName, lName);
+						Date dateOpen = new Date(date);
+						
+						Checking checking = new Checking(profile, balance, dateOpen, special);
+						db.add(checking);
+						
+						
+					}	
+					
+					
+					if(accountType.equals("M")) {
+						
+						fName = scanner.next();
+						lName = scanner.next();
+						balance = scanner.nextDouble();
+						date = scanner.next();
+						withdrawals = scanner.nextInt();
+						
+						Profile profile = new Profile(fName, lName);
+						Date dateOpen = new Date(date);
+						
+						MoneyMarket mm = new MoneyMarket(profile, balance, dateOpen);
+						
+						for(int i = 0; i < withdrawals; i++) {
+							mm.setWithdrawals();
+						}
+						
+						db.add(mm);
+						
+						
+					}
+					
+				} catch(InputMismatchException e) {
+					messageArea.appendText("Invalid input data type.");
+				}
+			}
+			
+		}
+		reader.close();
+		messageArea.appendText("File imported.");
+			
+			
+	}
+
 
     @FXML
     void openAcc(ActionEvent event) {
@@ -194,7 +313,7 @@ public class MainController {
         		case "Savings":
         			
         			boolean isLoyalInp;
-        			if (directDep.isSelected()) {
+        			if (isLoyal.isSelected()) {
         				isLoyalInp = true;
         			}
         			else {
@@ -237,35 +356,41 @@ public class MainController {
     @FXML
     void printAcc(ActionEvent event) {
     	String accInfo = db.printAccounts();
-    	messageArea.appendText(accInfo);
+    	messageArea.setText(accInfo);
     }
 
     @FXML
     void printByDate(ActionEvent event) {
     	String accInfo = db.printByDateOpen();
-    	messageArea.appendText(accInfo);
+    	messageArea.setText(accInfo);
     }
 
     @FXML
     void printByLastName(ActionEvent event) {
     	String accInfo = db.printByLastName();
-    	messageArea.appendText(accInfo);
+    	messageArea.setText(accInfo);
     }
     
     @FXML
-    void selectChecking(ActionEvent event) {
+    void selectSavings(ActionEvent event) {
+    	directDep.setSelected(false);
+    	isLoyal.setSelected(false);
     	directDep.setDisable(true);
     	isLoyal.setDisable(false);
     }
 
     @FXML
     void selectMoneyMarket(ActionEvent event) {
+    	directDep.setSelected(false);
+    	isLoyal.setSelected(false);
     	directDep.setDisable(true);
     	isLoyal.setDisable(true);
     }
 
     @FXML
-    void selectSavings(ActionEvent event) {
+    void selectChecking(ActionEvent event) {
+    	directDep.setSelected(false);
+    	isLoyal.setSelected(false);
     	directDep.setDisable(false);
     	isLoyal.setDisable(true);
     }
@@ -311,5 +436,6 @@ public class MainController {
     		messageArea.appendText("Number format exception.\n");
     	}
     }
+    
 
 }
