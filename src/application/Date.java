@@ -100,22 +100,42 @@ public class Date implements Comparable<Date> {
 	 */
 	public boolean isValid() { 
 		
-		if ((year < 0) || (month < 1) || (month > 12) || (day < 1) || (day > 31)) {
+		final int minYear = 0;
+		final int minDay = 1;
+		final int maxDay = 31;
+		final int febNoLeapDay = 28;
+		final int febLeapDay = 29;
+		
+		final int JAN = 1;
+		final int FEB = 2;
+		final int MAR = 3;
+		final int APR = 4;
+		final int MAY = 5;
+		final int JUNE = 6;
+		final int JULY = 7;
+		final int AUG = 8;
+		final int SEP = 9;
+		final int OCT = 10;
+		final int NOV = 11;
+		final int DEC = 12;
+		
+		
+		if ((year < minYear) || (month < JAN) || (month > DEC) || (day < minDay) || (day > maxDay)) {
 			return false;
 		}
 		
 		switch (month) {
-		case 1: return true;
-		case 2: return (isLeap(year) ? day <= 29 : day <= 28);
-		case 3: return true;
-		case 4: return day < 31;
-		case 5: return true;
-		case 6: return day < 31;
-		case 7: return true;
-		case 8: return true;
-		case 9: return day < 31;
-		case 10: return true;
-		case 11: return day < 31;
+		case JAN: return true;
+		case FEB: return (isLeap(year) ? day <= febLeapDay : day <= febNoLeapDay);
+		case MAR: return true;
+		case APR: return day < maxDay;
+		case MAY: return true;
+		case JUNE: return day < maxDay;
+		case JULY: return true;
+		case AUG: return true;
+		case SEP: return day < maxDay;
+		case OCT: return true;
+		case NOV: return day < maxDay;
 		default: return true;
 		
 		}
@@ -128,13 +148,19 @@ public class Date implements Comparable<Date> {
 	 * @return true if leap year, false otherwise
 	 */
 	private boolean isLeap(int year) {
-		if (year % 4 != 0) {
+		
+		final int leapMult = 4;
+		final int leapMultCentury = 400;
+		final int leapNonMultCentury = 100;
+		
+		
+		if (year % leapMult != 0) {
 			return false;
 		}
-		else if (year % 400 == 0) {
+		else if (year % leapMultCentury == 0) {
 			return true;
 		}
-		else if (year % 100 == 0) {
+		else if (year % leapNonMultCentury == 0) {
 			return false;
 		}
 		else {
