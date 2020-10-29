@@ -93,6 +93,25 @@ public class Checking extends Account {
 		return accountInfo;
 	}
 	
+	/**
+	 * Converts Checking account to its modified String representation
+	 * @return accountInfo The modified String representation of Checking object
+	 */
+	@Override
+	public String toStringExport() {
+		
+		String accountInfo;
+		
+		if (directDeposit) {
+			accountInfo = "C," + super.toStringExport() + ",true";
+		}
+		else {
+			accountInfo = "C," + super.toStringExport() + ",false";
+		}
+		
+		return accountInfo;
+	}
+	
 	
 	/**
 	 * Checks if Checking is equivalent to obj being compared to.

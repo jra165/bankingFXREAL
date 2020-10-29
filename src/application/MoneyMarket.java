@@ -114,6 +114,20 @@ public class MoneyMarket extends Account {
 	}
 	
 	/**
+	 * Converts MoneyMarket account to its modified String representation
+	 * @return accountInfo The modified String representation of MoneyMarket object
+	 */
+	@Override
+	public String toStringExport() {
+		
+		String accountInfo;
+		
+		accountInfo = "M," + super.toStringExport() + "," + this.withdrawals;
+		
+		return accountInfo;
+	}
+	
+	/**
 	 * Checks if MoneyMarket is equivalent to obj being compared to.
 	 * Checks if obj instanceof MoneyMarket and if all data fields are equivalent
 	 * @param obj The object being compared to a particular MoneyMarket account

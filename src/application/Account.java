@@ -110,6 +110,23 @@ public abstract class Account {
 		
 	}
 	
+	/**
+	 * Converts Account object to String representation
+	 * String representation follows the format "firstName LastName * $XX.XX*date"
+	 * @return accountInfo The string representation of the Account
+	 */
+	public String toStringExport() { 
+		
+		String fname = this.holder.get_fname();
+		String lname = this.holder.get_lname();
+		String date = this.dateOpen.toString();
+		
+		String accountInfo = fname + "," + lname + "," + String.format("%.2f", balance) + "," + date;
+		
+		return accountInfo;
+		
+	}
+	
 	
 	/** 
 	 * Checks if Account is equivalent to obj being compared to

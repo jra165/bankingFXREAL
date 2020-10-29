@@ -219,6 +219,7 @@ public class AccountDatabase {
 	/**
 	 * Prints the list of accounts by the dates they were opened
 	 * Includes starting balance and ending balance, with fees and interest
+	 * @return output The list of accounts by the dates they were opened
 	 */
 	public String printByDateOpen() { 
 		
@@ -271,6 +272,7 @@ public class AccountDatabase {
 	/** 
 	 * Prints the list of accounts by the last names of the holders
 	 * Includes starting balance and ending balance, with fees and interest
+	 * @return output The list of accounts in the database by last names
 	 */
 	public String printByLastName() { 
 		
@@ -320,6 +322,7 @@ public class AccountDatabase {
 	
 	/**
 	 * Prints the list of accounts in the database
+	 * @return output The list of accounts in the database
 	 */
 	public String printAccounts() { 
 		
@@ -349,6 +352,35 @@ public class AccountDatabase {
 		return output.toString();
 	}
 	
+	
+	/**
+	 * Prints the formatted list of accounts in the database
+	 * @return output The formatted list of accounts in the database
+	 */
+	public String printFormattedAccounts() {
+		
+		StringBuilder output = new StringBuilder("");
+		
+		if(size > 0) {
+			
+			for(int i = 0; i < size; i++) {
+				
+				output.append(accounts[i].toStringExport());
+				output.append("\n");
+				
+			}
+			
+		}
+		
+		else {
+			
+			output.append("Empty database.");
+			
+		}
+		
+		return output.toString();
+		
+	}
 	
 
 }
