@@ -16,7 +16,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MainController {
-
+	
     @FXML
     private CheckBox directDep, isLoyal;
 
@@ -36,16 +36,18 @@ public class MainController {
     private Button deposit, withdraw;
 
     @FXML
-    private RadioButton checkDepWith, savingsDepWith, monMarketDepWith, fName_DepWith, lName_DepWith;
+    private RadioButton checkDepWith, savingsDepWith, monMarketDepWith;
 
     @FXML
-    private TextField amount;
+    private TextField amount, fName_DepWith, lName_DepWith;
 
     @FXML
     private MenuItem importFile;
     
     @FXML
     private TextArea messageArea;
+    
+    public static AccountDatabase db = new AccountDatabase();
 
     @FXML
     void clearFields(ActionEvent event) {
@@ -56,12 +58,10 @@ public class MainController {
     	year.clear();
     	balance.clear();
     	tgOpenClose.selectToggle(null);
-    	//tg.getSelectedToggle().setSelected(false);
-    	//checkingOpenClose.setSelected(false);
-    	//savingsOpenClose.setSelected(false);
-    	//moneyMarketOpenClose.setSelected(false);
+    	directDep.setSelected(false);
     	directDep.setSelected(false);
     	isLoyal.setSelected(false);
+    	isLoyal.setDisable(false);
     }
 
     @FXML
@@ -70,20 +70,20 @@ public class MainController {
     	Profile person = new Profile(fName_OpenClose.getText(), lName_OpenClose.getText());
     	boolean closed = false;
     	
-    	String accType = ((RadioButton) tgDepositWithdraw.getSelectedToggle()).getText();
+    	String accType = ((RadioButton) tgOpenClose.getSelectedToggle()).getText();
     	
     	switch (accType) {
     	case "Checking":
     		Account currCheckAcc = new Checking(person);
-    		//closed = db.remove(currCheckAcc);
+    		closed = db.remove(currCheckAcc);
     		break;
     	case "Savings":
     		Account currSavingsAcc = new Savings(person);
-    		//closed = db.remove(currSavingsAcc);
+    		closed = db.remove(currSavingsAcc);
     		break;
     	case "Money Market":
     		Account currMoneyMarketAcc = new MoneyMarket(person);
-    		//closed = db.remove(currMoneyMarketAcc);
+    		closed = db.remove(currMoneyMarketAcc);
     		break;
     	}
     	
@@ -111,15 +111,15 @@ public class MainController {
     		switch(accType) {
     		case "Checking":
     			Account currCheckingAcc = new Checking(person);
-    			//deposited = db.deposit(currCheckingAcc, inpBalance);
+    			deposited = db.deposit(currCheckingAcc, inpBalance);
     			break;
     		case "Savings":
     			Account currSavingsAcc = new Savings(person);
-    			//deposited = db.deposit(currSavingsAcc, inpBalance);
+    			deposited = db.deposit(currSavingsAcc, inpBalance);
     			break;
     		case "Money Market":
     			Account currMoneyMarketAcc = new MoneyMarket(person);
-    			//deposited = db.deposit(currMoneyMarketAcc, inpBalance);
+    			deposited = db.deposit(currMoneyMarketAcc, inpBalance);
     			break;
     		}
     		
@@ -160,7 +160,7 @@ public class MainController {
 		//write code to read from the file.
     }
 
-    
+    @FXML
     void openAcc(ActionEvent event) {
     	
     	try {
@@ -188,7 +188,7 @@ public class MainController {
         			}
         			
         			Checking checking = new Checking(person, inpBalance, dateOpen, directDepInp);
-        			//opened = db.add(checking);
+        			opened = db.add(checking);
         			break;
         			
         		case "Savings":
@@ -202,13 +202,13 @@ public class MainController {
         			}
         			
         			Savings savings = new Savings(person, inpBalance, dateOpen, isLoyalInp);
-        			//opened = db.add(checking);
+        			opened = db.add(savings);
         			break;
         			
         		case "Money Market":
         			
         			MoneyMarket moneyMarket = new MoneyMarket(person, inpBalance, dateOpen);
-        			//opened = db.add(checking);
+        			opened = db.add(moneyMarket);
         			break;
         		}
         		
@@ -236,26 +236,26 @@ public class MainController {
 
     @FXML
     void printAcc(ActionEvent event) {
-    	//String accInfo = db.printAccounts();
-    	//messageArea.appendText(accInfo);
+    	String accInfo = db.printAccounts();
+    	messageArea.appendText(accInfo);
     }
 
     @FXML
     void printByDate(ActionEvent event) {
-    	//String accInfo = db.printByDateOpen();
-    	//messageArea.appendText(accInfo);
+    	String accInfo = db.printByDateOpen();
+    	messageArea.appendText(accInfo);
     }
 
     @FXML
     void printByLastName(ActionEvent event) {
-    	//String accInfo = db.printByLastName();
-    	//messageArea.appendText(accInfo);
+    	String accInfo = db.printByLastName();
+    	messageArea.appendText(accInfo);
     }
     
     @FXML
     void selectChecking(ActionEvent event) {
-    	//directDep.setDisable(true);
-    	//isLoyal.setDisable(false);
+    	directDep.setDisable(true);
+    	isLoyal.setDisable(false);
     }
 
     @FXML
@@ -283,15 +283,15 @@ public class MainController {
     		switch(accType) {
     		case "Checking":
     			Account currCheckingAcc = new Checking(person);
-    			//withdrawn = db.withdrawal(currCheckingAcc, inpBalance);
+    			withdrawn = db.withdrawal(currCheckingAcc, inpBalance);
     			break;
     		case "Savings":
     			Account currSavingsAcc = new Savings(person);
-    			//withdrawn = db.withdrawal(currSavingsAcc, inpBalance);
+    			withdrawn = db.withdrawal(currSavingsAcc, inpBalance);
     			break;
     		case "Money Market":
     			Account currMoneyMarketAcc = new MoneyMarket(person);
-    			//withdrawn = db.withdrawal(currMoneyMarketAcc, inpBalance);
+    			withdrawn = db.withdrawal(currMoneyMarketAcc, inpBalance);
     			break;
     		}
     		
