@@ -220,32 +220,50 @@ public class AccountDatabase {
 	 * Prints the list of accounts by the dates they were opened
 	 * Includes starting balance and ending balance, with fees and interest
 	 */
-	public void printByDateOpen() { 
+	public String printByDateOpen() { 
+		
+		StringBuilder output = new StringBuilder("");
 		
 		if(size > 0) {
 			sortByDateOpen();
-			System.out.println();
-			System.out.println("--Printing statements by date opened--");
+			output.append("\n");
+			output.append("--Printing statements by date opened--\n");
+			//System.out.println();
+			//System.out.println("--Printing statements by date opened--");
 			
 			
 			for (int i = 0; i < size; i++) {
 				
-				System.out.println();
-				System.out.println(accounts[i].toString());
+				output.append("\n");
+				output.append(accounts[i].toString());
+				output.append("\n");
 				accounts[i].setBalance(accounts[i].monthlyInterest(), accounts[i].monthlyFee());
-				System.out.println("-interest: $ " + String.format("%.2f", accounts[i].monthlyInterest()));
-				System.out.println("-fee: $ " + String.format("%.2f", accounts[i].monthlyFee()));
-				System.out.println("-new balance: $ " + (String.format("%.2f", accounts[i].getBalance())));
+				output.append("-interest: $ " + String.format("%.2f", accounts[i].monthlyInterest()));
+				output.append("\n");
+				output.append("-fee: $ " + String.format("%.2f", accounts[i].monthlyFee()));
+				output.append("\n");
+				output.append("-new balance: $ " + (String.format("%.2f", accounts[i].getBalance())));
+				output.append("\n");
+				
+				
+				//System.out.println();
+				//System.out.println(accounts[i].toString());
+				//accounts[i].setBalance(accounts[i].monthlyInterest(), accounts[i].monthlyFee());
+				//System.out.println("-interest: $ " + String.format("%.2f", accounts[i].monthlyInterest()));
+				//System.out.println("-fee: $ " + String.format("%.2f", accounts[i].monthlyFee()));
+				//System.out.println("-new balance: $ " + (String.format("%.2f", accounts[i].getBalance())));
 				
 			}
 		
-			System.out.println("--end of listing--");
+			output.append("--end of listing--\n");
 			
 		}
 		
 		else {
-			System.out.println("Database is empty.");
+			output.append("Database is empty.\n");
 		}
+		
+		return output.toString();
 		
 	}
 	
@@ -254,55 +272,81 @@ public class AccountDatabase {
 	 * Prints the list of accounts by the last names of the holders
 	 * Includes starting balance and ending balance, with fees and interest
 	 */
-	public void printByLastName() { 
+	public String printByLastName() { 
+		
+		StringBuilder output = new StringBuilder("");
 		
 		if(size > 0) {
 			
 			sortByLastName();
 			
-			System.out.println();
-			System.out.println("--Printing statements by last name--");
+			output.append("\n");
+			output.append("--Printing statements by last name--\n");
+			//System.out.println();
+			//System.out.println("--Printing statements by last name--");
 			
 			for (int i = 0; i < size; i++) {
-				System.out.println();
+				
+				output.append("\n");
+				output.append(accounts[i].toString());
+				output.append("\n");
+				accounts[i].setBalance(accounts[i].monthlyInterest(), accounts[i].monthlyFee());
+				output.append("-interest: $ " + String.format("%.2f", accounts[i].monthlyInterest()));
+				output.append("\n");
+				output.append("-fee: $ " + String.format("%.2f", accounts[i].monthlyFee()));
+				output.append("\n");
+				output.append("-new balance: $ " + (String.format("%.2f", accounts[i].getBalance())));
+				output.append("\n");
+				
+				/*System.out.println();
 				System.out.println(accounts[i].toString());
 				accounts[i].setBalance(accounts[i].monthlyInterest(), accounts[i].monthlyFee());
 				System.out.println("-interest: $ " + String.format("%.2f", accounts[i].monthlyInterest()));
 				System.out.println("-fee: $ " + String.format("%.2f", accounts[i].monthlyFee()));
-				System.out.println("-new balance: $ " + (String.format("%.2f", accounts[i].getBalance())));
+				System.out.println("-new balance: $ " + (String.format("%.2f", accounts[i].getBalance())));*/
 			}
 			
-			System.out.println("--end of printing--");	
+			output.append("--end of printing--\n");	
 			
 		}
 		
 		else {
-			System.out.println("Database is empty.");
+			output.append("Database is empty.\n");
 		}
+		
+		return output.toString();
 
 	}
 	
 	/**
 	 * Prints the list of accounts in the database
 	 */
-	public void printAccounts() { 
+	public String printAccounts() { 
+		
+		StringBuilder output = new StringBuilder("");
 		
 		if(size > 0) {
 			
-			System.out.println("--Listing accounts in the database--");
+			output.append("--Listing accounts in the database--\n");
+			//System.out.println("--Listing accounts in the database--");
 
 			for (int i = 0; i < size; i++) {
-				System.out.println(accounts[i].toString());
+				output.append(accounts[i].toString());
+				output.append("\n");
+				//System.out.println(accounts[i].toString());
 			}
 			
-			System.out.println("--end of listing--");	
+			output.append("--end of listing--\n");
+			//System.out.println("--end of listing--");	
 			
 		}
 
 		else {
-			System.out.println("Database is empty.");
+			output.append("Database is empty.\n");
+			//System.out.println("Database is empty.");
 		}
 		
+		return output.toString();
 	}
 	
 	
