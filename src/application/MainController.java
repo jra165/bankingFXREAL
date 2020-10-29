@@ -11,6 +11,9 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 public class MainController {
 
@@ -85,23 +88,76 @@ public class MainController {
     	}
     	
     	if (closed) {
-    		messageArea.appendText("Account closed and removed from the database.");
+    		messageArea.appendText("Account closed and removed from the database.\n");
     	}
     	else {
-    		messageArea.appendText("Account does not exist.");
+    		messageArea.appendText("Account does not exist.\n");
     	}
     		
     	
     }
+    
+    
+    @FXML
+    void depositFunds(ActionEvent event) {
+    	try {
+    		
+    		Profile person = new Profile(fName_DepWith.getText(), lName_DepWith.getText());
+    		double inpBalance = Double.parseDouble(amount.getText());
+    		boolean deposited = false;
+    		
+    		String accType = ((RadioButton) tgDepositWithdraw.getSelectedToggle()).getText();
+    		
+    		switch(accType) {
+    		case "Checking":
+    			Account currCheckingAcc = new Checking(person);
+    			//deposited = db.deposit(currCheckingAcc, inpBalance);
+    			break;
+    		case "Savings":
+    			Account currSavingsAcc = new Savings(person);
+    			//deposited = db.deposit(currSavingsAcc, inpBalance);
+    			break;
+    		case "Money Market":
+    			Account currMoneyMarketAcc = new MoneyMarket(person);
+    			//deposited = db.deposit(currMoneyMarketAcc, inpBalance);
+    			break;
+    		}
+    		
+    		
+    		if (deposited) {
+    			messageArea.appendText(String.format("%.2f", inpBalance) + " deposited to account.\n");
+    		}
+    		else {
+    			messageArea.appendText("Account does not exist.\n");
+    		}
+    		
+    		
+    	}
+    	catch(NumberFormatException e) {
+    		messageArea.appendText("Number format exception.\n");
+    	}
+    }
 
     @FXML
     void exportFile(ActionEvent event) {
-
+    	FileChooser chooser = new FileChooser();
+		chooser.setTitle("Open Target File for the Export");
+		chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+				new ExtensionFilter("All Files", "*.*"));
+		Stage stage = new Stage();
+		File targeFile = chooser.showSaveDialog(stage); //get the reference of the target file
+		//write code to write to the file.
     }
 
     @FXML
     void importFile(ActionEvent event) {
-
+    	FileChooser chooser = new FileChooser();
+		chooser.setTitle("Open Source File for the Import");
+		chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+				new ExtensionFilter("All Files", "*.*"));
+		Stage stage = new Stage();
+		File sourceFile = chooser.showOpenDialog(stage); //get the reference of the source file
+		//write code to read from the file.
     }
 
     
@@ -157,16 +213,16 @@ public class MainController {
         		}
         		
         		if (opened) {
-    				messageArea.appendText("Account opened and added to the database.");
+    				messageArea.appendText("Account opened and added to the database.\n");
     			}
     			else {
-    				messageArea.appendText("Account is already in the database.");
+    				messageArea.appendText("Account is already in the database.\n");
     			}
         		
         		
         	}
         	else {
-        		messageArea.appendText(dateOpen.toString() + " is not a valid date!");
+        		messageArea.appendText(dateOpen.toString() + " is not a valid date!\n");
         	}
     	}
     	
@@ -209,6 +265,48 @@ public class MainController {
     void selectSavings(ActionEvent event) {
     	directDep.setDisable(false);
     	isLoyal.setDisable(true);
+    }
+    
+    @FXML
+    void withdrawFunds(ActionEvent event) {
+    	try {
+    		
+    		Profile person = new Profile(fName_DepWith.getText(), lName_DepWith.getText());
+    		double inpBalance = Double.parseDouble(amount.getText());
+    		int withdrawn = 0;
+    		
+    		String accType = ((RadioButton) tgDepositWithdraw.getSelectedToggle()).getText();
+    		
+    		switch(accType) {
+    		case "Checking":
+    			Account currCheckingAcc = new Checking(person);
+    			//withdrawn = db.withdrawal(currCheckingAcc, inpBalance);
+    			break;
+    		case "Savings":
+    			Account currSavingsAcc = new Savings(person);
+    			//withdrawn = db.withdrawal(currSavingsAcc, inpBalance);
+    			break;
+    		case "Money Market":
+    			Account currMoneyMarketAcc = new MoneyMarket(person);
+    			//withdrawn = db.withdrawal(currMoneyMarketAcc, inpBalance);
+    			break;
+    		}
+    		
+    		
+    		if (withdrawn == 0) {
+    			messageArea.appendText(String.format("%.2f", inpBalance) + " withdrawn from account.\n");
+    		}
+    		else if (withdrawn == 1) {
+    			messageArea.appendText("Insufficient funds.\n");
+    		}
+    		else {
+    			messageArea.appendText("Account does not exist.\n");
+    		}
+    		
+    	}
+    	catch(NumberFormatException e) {
+    		messageArea.appendText("Number format exception.\n");
+    	}
     }
 
 }
