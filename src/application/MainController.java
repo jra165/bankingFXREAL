@@ -187,12 +187,10 @@ public class MainController {
 		Scanner reader;
 		reader = new Scanner(sourceFile);
 		
-		String line = null;
 		Scanner scanner = null;
-		
-		while((line = reader.nextLine()) != null) {
+		while(reader.hasNext()) {
 				
-			scanner = new Scanner(line);
+			scanner = new Scanner(reader.nextLine());
 			scanner.useDelimiter(",");
 			
 			String fName;
@@ -202,26 +200,25 @@ public class MainController {
 			boolean special;
 			int withdrawals;
 			
-			
-			while(scanner.hasNext()) {
+			try {
 				
-				try {
+				while(scanner.hasNext()) {
 					
 					String accountType = scanner.next();
 					
 					if(accountType.equals("S")) {
 							
-							fName = scanner.next();
-							lName = scanner.next();
-							balance = scanner.nextDouble();
-							date = scanner.next();
-							special = scanner.nextBoolean();
-							
-							Profile profile = new Profile(fName, lName);
-							Date dateOpen = new Date(date);
-							
-							Savings savings = new Savings(profile, balance, dateOpen, special);
-							db.add(savings);
+						fName = scanner.next();
+						lName = scanner.next();
+						balance = scanner.nextDouble();
+						date = scanner.next();
+						special = scanner.nextBoolean();
+						
+						Profile profile = new Profile(fName, lName);
+						Date dateOpen = new Date(date);
+						
+						Savings savings = new Savings(profile, balance, dateOpen, special);
+						db.add(savings);
 							
 							
 					}
@@ -266,14 +263,22 @@ public class MainController {
 						
 					}
 					
-				} catch(InputMismatchException e) {
-					messageArea.appendText("Invalid input data type.");
+			 
 				}
+				
+			}catch(InputMismatchException e) {
+				messageArea.appendText("Invalid input data type, account not created.\n");
+			}
+			catch(NoSuchElementException e) {
+				messageArea.appendText("No such element exception, not enough information provided so account not created.\n");
 			}
 			
+			scanner.close();
+			
 		}
+		
 		reader.close();
-		messageArea.appendText("File imported.");
+		messageArea.appendText("\nFile imported.");
 			
 			
 	}
@@ -346,7 +351,13 @@ public class MainController {
     	}
     	
     	catch (NumberFormatException e){
-    		messageArea.appendText("Number format exception.\n");
+    		messageArea.appendText("Number format exception, account could not be created.\n");
+    	}
+    	catch (ArrayIndexOutOfBoundsException e) {
+    		messageArea.appendText("Not enough information provided, account could not be created.\n");
+    	}
+    	catch (NullPointerException e) {
+    		messageArea.appendText("No account type chosen.\n");
     	}
     	
     	
