@@ -126,6 +126,10 @@ public class MainController {
     		double inpBalance = Double.parseDouble(amount.getText());
     		boolean deposited = false;
     		
+        	if(inpBalance < 0) {
+        		throw new IllegalArgumentException("No negative numbers, please enter a valid balance.\n");
+        	}
+    		
     		String accType = ((RadioButton) tgDepositWithdraw.getSelectedToggle()).getText();
     		
     		switch(accType) {
@@ -158,6 +162,9 @@ public class MainController {
     	}
     	catch(NullPointerException e) {
     		messageArea.appendText("Select a valid account type to deposit into.\n");
+    	}
+    	catch (IllegalArgumentException e) {
+    		messageArea.appendText("No negative numbers, please enter a valid balance.\n");
     	}
     }
 
@@ -318,6 +325,9 @@ public class MainController {
         	double inpBalance = Double.parseDouble(balance.getText());
         	boolean opened = false;
         	
+        	if(inpBalance < 0) {
+        		throw new IllegalArgumentException("No negative numbers, please enter a valid balance.\n");
+        	}
         	
         	if(dateOpen.isValid()) {
         		
@@ -382,6 +392,9 @@ public class MainController {
     	catch (NullPointerException e) {
     		messageArea.appendText("No account type chosen.\n");
     	}
+    	catch (IllegalArgumentException e) {
+    		messageArea.appendText("No negative numbers, please enter a valid balance.\n");
+    	}
     	
     	
     	
@@ -437,6 +450,10 @@ public class MainController {
     		double inpBalance = Double.parseDouble(amount.getText());
     		int withdrawn = 0;
     		
+        	if(inpBalance < 0) {
+        		throw new IllegalArgumentException("No negative numbers, please enter a valid balance.\n");
+        	}
+    		
     		String accType = ((RadioButton) tgDepositWithdraw.getSelectedToggle()).getText();
     		
     		switch(accType) {
@@ -472,6 +489,10 @@ public class MainController {
     	catch(NullPointerException e) {
     		messageArea.appendText("Select a valid account type to withdraw from.\n");
     	}
+    	catch (IllegalArgumentException e) {
+    		messageArea.appendText("No negative numbers, please enter a valid balance.\n");
+    	}
+    	
     }
     
 
