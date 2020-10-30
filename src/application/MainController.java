@@ -76,33 +76,43 @@ public class MainController {
 
     @FXML
     void closeAcc(ActionEvent event) {
-    	// Create instances of profile and date based on text entry boxes
-    	Profile person = new Profile(fName_OpenClose.getText(), lName_OpenClose.getText());
-    	boolean closed = false;
     	
-    	String accType = ((RadioButton) tgOpenClose.getSelectedToggle()).getText();
-    	
-    	switch (accType) {
-    	case "Checking":
-    		Account currCheckAcc = new Checking(person);
-    		closed = db.remove(currCheckAcc);
-    		break;
-    	case "Savings":
-    		Account currSavingsAcc = new Savings(person);
-    		closed = db.remove(currSavingsAcc);
-    		break;
-    	case "Money Market":
-    		Account currMoneyMarketAcc = new MoneyMarket(person);
-    		closed = db.remove(currMoneyMarketAcc);
-    		break;
+    	try {
+    		// Create instances of profile and date based on text entry boxes
+        	Profile person = new Profile(fName_OpenClose.getText(), lName_OpenClose.getText());
+        	boolean closed = false;
+        	
+        	String accType = ((RadioButton) tgOpenClose.getSelectedToggle()).getText();
+        	
+        	switch (accType) {
+        	case "Checking":
+        		Account currCheckAcc = new Checking(person);
+        		closed = db.remove(currCheckAcc);
+        		break;
+        	case "Savings":
+        		Account currSavingsAcc = new Savings(person);
+        		closed = db.remove(currSavingsAcc);
+        		break;
+        	case "Money Market":
+        		Account currMoneyMarketAcc = new MoneyMarket(person);
+        		closed = db.remove(currMoneyMarketAcc);
+        		break;
+        	}
+        	
+        	if (closed) {
+        		messageArea.appendText("Account closed and removed from the database.\n");
+        	}
+        	else {
+        		messageArea.appendText("Account does not exist.\n");
+        	}
+    	}
+    	catch (ArrayIndexOutOfBoundsException e) {
+    		messageArea.appendText("ArrayIndexOutOfBoundsException error.\n");
+    	}
+    	catch (NullPointerException e) {
+    		messageArea.appendText("NullPointerException error.\n");
     	}
     	
-    	if (closed) {
-    		messageArea.appendText("Account closed and removed from the database.\n");
-    	}
-    	else {
-    		messageArea.appendText("Account does not exist.\n");
-    	}
     		
     	
     }
@@ -144,7 +154,10 @@ public class MainController {
     		
     	}
     	catch(NumberFormatException e) {
-    		messageArea.appendText("Number format exception.\n");
+    		messageArea.appendText("Number format exception, enter a valid amount to deposit.\n");
+    	}
+    	catch(NullPointerException e) {
+    		messageArea.appendText("Select a valid account type to deposit into.\n");
     	}
     }
 
@@ -166,9 +179,13 @@ public class MainController {
 			bf.flush();
 			bf.close();
 			
+			messageArea.appendText("File successfully exported.\n");
 			
 		} catch (IOException e) {
-    		messageArea.appendText("Unable to export transactions to file.");
+    		messageArea.appendText("Unable to export transactions to file.\n");
+		}
+		catch (NullPointerException e) {
+			messageArea.appendText("File not selected, unable to export transactions to file.\n");
 		}
 		
 		
@@ -184,33 +201,33 @@ public class MainController {
 		Stage stage = new Stage();
 		File sourceFile = chooser.showOpenDialog(stage); //get the reference of the source file
 		
-		Scanner reader;
-		reader = new Scanner(sourceFile);
-		
-		String line = null;
-		Scanner scanner = null;
-		
-		while((line = reader.nextLine()) != null) {
+		try {
+			
+			messageArea.appendText("Importing from file: " + sourceFile.toString() + "...\n\n");
+			Scanner reader;
+			reader = new Scanner(sourceFile);
+			
+			Scanner scanner = null;
+			while(reader.hasNext()) {
+					
+				scanner = new Scanner(reader.nextLine());
+				scanner.useDelimiter(",");
 				
-			scanner = new Scanner(line);
-			scanner.useDelimiter(",");
-			
-			String fName;
-			String lName;
-			double balance;
-			String date ;
-			boolean special;
-			int withdrawals;
-			
-			
-			while(scanner.hasNext()) {
+				String fName;
+				String lName;
+				double balance;
+				String date ;
+				boolean special;
+				int withdrawals;
 				
 				try {
 					
-					String accountType = scanner.next();
-					
-					if(accountType.equals("S")) {
-							
+					while(scanner.hasNext()) {
+						
+						String accountType = scanner.next();
+						
+						if(accountType.equals("S")) {
+								
 							fName = scanner.next();
 							lName = scanner.next();
 							balance = scanner.nextDouble();
@@ -222,58 +239,69 @@ public class MainController {
 							
 							Savings savings = new Savings(profile, balance, dateOpen, special);
 							db.add(savings);
-							
-							
-					}
-					
-					if(accountType.equals("C")) {
-						
-						fName = scanner.next();
-						lName = scanner.next();
-						balance = scanner.nextDouble();
-						date = scanner.next();
-						special = scanner.nextBoolean();
-						
-						Profile profile = new Profile(fName, lName);
-						Date dateOpen = new Date(date);
-						
-						Checking checking = new Checking(profile, balance, dateOpen, special);
-						db.add(checking);
-						
-						
-					}	
-					
-					
-					if(accountType.equals("M")) {
-						
-						fName = scanner.next();
-						lName = scanner.next();
-						balance = scanner.nextDouble();
-						date = scanner.next();
-						withdrawals = scanner.nextInt();
-						
-						Profile profile = new Profile(fName, lName);
-						Date dateOpen = new Date(date);
-						
-						MoneyMarket mm = new MoneyMarket(profile, balance, dateOpen);
-						
-						for(int i = 0; i < withdrawals; i++) {
-							mm.setWithdrawals();
+								
+								
 						}
 						
-						db.add(mm);
+						if(accountType.equals("C")) {
+							
+							fName = scanner.next();
+							lName = scanner.next();
+							balance = scanner.nextDouble();
+							date = scanner.next();
+							special = scanner.nextBoolean();
+							
+							Profile profile = new Profile(fName, lName);
+							Date dateOpen = new Date(date);
+							
+							Checking checking = new Checking(profile, balance, dateOpen, special);
+							db.add(checking);
+							
+							
+						}	
 						
 						
+						if(accountType.equals("M")) {
+							
+							fName = scanner.next();
+							lName = scanner.next();
+							balance = scanner.nextDouble();
+							date = scanner.next();
+							withdrawals = scanner.nextInt();
+							
+							Profile profile = new Profile(fName, lName);
+							Date dateOpen = new Date(date);
+							
+							MoneyMarket mm = new MoneyMarket(profile, balance, dateOpen);
+							
+							for(int i = 0; i < withdrawals; i++) {
+								mm.setWithdrawals();
+							}
+							
+							db.add(mm);
+							
+							
+						}
+						
+				 
 					}
 					
 				} catch(InputMismatchException e) {
-					messageArea.appendText("Invalid input data type.");
+					messageArea.appendText("Invalid input data type, account not created.\n");
 				}
+				catch(NoSuchElementException e) {
+					messageArea.appendText("No such element exception, not enough information provided so account not created.\n");
+				}
+				
+				scanner.close();
+				
 			}
 			
+			reader.close();
+			messageArea.appendText("\nFile imported.\n");
+		} catch (NullPointerException e) {
+			messageArea.appendText("File not selected, unable to import transactions to file.\n");
 		}
-		reader.close();
-		messageArea.appendText("File imported.");
 			
 			
 	}
@@ -346,7 +374,13 @@ public class MainController {
     	}
     	
     	catch (NumberFormatException e){
-    		messageArea.appendText("Number format exception.\n");
+    		messageArea.appendText("Number format exception, enter a valid starting balance.\n");
+    	}
+    	catch (ArrayIndexOutOfBoundsException e) {
+    		messageArea.appendText("Not enough information provided, account could not be created.\n");
+    	}
+    	catch (NullPointerException e) {
+    		messageArea.appendText("No account type chosen.\n");
     	}
     	
     	
@@ -433,7 +467,10 @@ public class MainController {
     		
     	}
     	catch(NumberFormatException e) {
-    		messageArea.appendText("Number format exception.\n");
+    		messageArea.appendText("Number format exception, enter a valid amount to withdraw.\n");
+    	}
+    	catch(NullPointerException e) {
+    		messageArea.appendText("Select a valid account type to withdraw from.\n");
     	}
     }
     
