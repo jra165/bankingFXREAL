@@ -102,8 +102,8 @@ public class Savings extends Account {
 	}
 	
 	/**
-	 * Converts Savings account to its modified String representation
-	 * @return accountInfo The modified String representation of Savings object
+	 * Converts Savings account to its modified String representation for export
+	 * @return accountInfo The modified String representation of Savings object for export
 	 */
 	@Override
 	public String toStringExport() {

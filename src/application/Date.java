@@ -88,6 +88,7 @@ public class Date implements Comparable<Date> {
 	 * Date follows the format mm/dd/yyyy
 	 * @return dateStr The String representation of the Date
 	 */
+	@Override
 	public String toString() {
 		String dateStr = Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year);
 		return dateStr;
@@ -106,18 +107,18 @@ public class Date implements Comparable<Date> {
 		final int febNoLeapDay = 28;
 		final int febLeapDay = 29;
 		
-		final int JAN = 1;
-		final int FEB = 2;
-		final int MAR = 3;
-		final int APR = 4;
-		final int MAY = 5;
-		final int JUNE = 6;
-		final int JULY = 7;
-		final int AUG = 8;
-		final int SEP = 9;
-		final int OCT = 10;
-		final int NOV = 11;
-		final int DEC = 12;
+		final int JAN = 1;				//January is 1st month
+		final int FEB = 2;				//February is 2nd month of year
+		final int MAR = 3;				//March is 3rd month of year
+		final int APR = 4;				//April is 4th month of year
+		final int MAY = 5;				//May is 5th month of year
+		final int JUNE = 6;				//June is 6th month of year
+		final int JULY = 7;				//July is 7th month of year
+		final int AUG = 8;				//August is 8th month of year
+		final int SEP = 9;				//September is 9th month of year
+		final int OCT = 10;				//October is 10th month of year
+		final int NOV = 11;				//November is 11th month of year
+		final int DEC = 12;				//December is 12th month of year	
 		
 		
 		if ((year < minYear) || (month < JAN) || (month > DEC) || (day < minDay) || (day > maxDay)) {

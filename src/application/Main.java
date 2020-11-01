@@ -1,3 +1,7 @@
+/**
+ * The Main class is the class that launches the banking application.
+ * @author Joshua Atienza, Kyle Lee
+ */
 package application;
 	
 import javafx.application.Application;
@@ -8,6 +12,11 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
+	
+	/**
+	 * Places UI controls in a scene and displays scene in stage
+	 * @param primaryStage The stage to be generated and displayed in JavaFX
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -22,6 +31,10 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Launches the application 
+	 * @param args Arguments passed by command line
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
