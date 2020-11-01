@@ -114,8 +114,8 @@ public class MoneyMarket extends Account {
 	}
 	
 	/**
-	 * Converts MoneyMarket account to its modified String representation
-	 * @return accountInfo The modified String representation of MoneyMarket object
+	 * Converts MoneyMarket account to its modified String representation for export
+	 * @return accountInfo The modified String representation of MoneyMarket object for export
 	 */
 	@Override
 	public String toStringExport() {

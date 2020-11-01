@@ -355,7 +355,7 @@ public class AccountDatabase {
 	
 	/**
 	 * Prints the formatted list of accounts in the database
-	 * @return output The formatted list of accounts in the database
+	 * @return output The formatted list of accounts for export purposes in the database
 	 */
 	public String printFormattedAccounts() {
 		

@@ -94,8 +94,8 @@ public class Checking extends Account {
 	}
 	
 	/**
-	 * Converts Checking account to its modified String representation
-	 * @return accountInfo The modified String representation of Checking object
+	 * Converts Checking account to its modified String representation for export
+	 * @return accountInfo The modified String representation of Checking object for export
 	 */
 	@Override
 	public String toStringExport() {

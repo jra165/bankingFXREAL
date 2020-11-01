@@ -1,13 +1,10 @@
 package application;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -25,6 +22,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
+/**
+ * The MainController class is the class that integrates logic of application into the UI
+ * UI components shown below
+ * Methods include clearFields, closeAcc, depositFunds, exportFile, importFile, openAcc,
+ * printAcc, printByDate, printByLastName, selectSavings, selectMoneyMarket, selectChecking, 
+ * and withdrawFunds — all of which are described below
+ * @author Joshua Atienza, Kyle Lee
+ *
+ */
 public class MainController {
 	
     @FXML
@@ -58,7 +64,11 @@ public class MainController {
     private TextArea messageArea;
     
     public static AccountDatabase db = new AccountDatabase();
-
+    
+    /**
+     * Clears user-inputed fields in the UI
+     * @param event The semantic event that indicates user clicked 'Clear' button
+     */
     @FXML
     void clearFields(ActionEvent event) {
     	fName_OpenClose.clear();
@@ -73,17 +83,23 @@ public class MainController {
     	isLoyal.setSelected(false);
     	isLoyal.setDisable(false);
     }
-
+    
+    /**
+     * Closes an account inside the AccountDatabase
+     * @param event The semantic event that indicates a user clicked 'Close Account'
+     */
     @FXML
     void closeAcc(ActionEvent event) {
     	
     	try {
+    		
     		// Create instances of profile and date based on text entry boxes
         	Profile person = new Profile(fName_OpenClose.getText(), lName_OpenClose.getText());
         	boolean closed = false;
         	
         	String accType = ((RadioButton) tgOpenClose.getSelectedToggle()).getText();
         	
+        	//remove account according to account type
         	switch (accType) {
         	case "Checking":
         		Account currCheckAcc = new Checking(person);
@@ -118,6 +134,10 @@ public class MainController {
     }
     
     
+    /**
+     * Deposits funds into a specific account within AccountDatabase
+     * @param event The semantic event that indicates a user has clicked "Deposit" button
+     */
     @FXML
     void depositFunds(ActionEvent event) {
     	try {
@@ -132,6 +152,7 @@ public class MainController {
     		
     		String accType = ((RadioButton) tgDepositWithdraw.getSelectedToggle()).getText();
     		
+    		//deposits funds in specified account by according to account type
     		switch(accType) {
     		case "Checking":
     			Account currCheckingAcc = new Checking(person);
@@ -167,7 +188,11 @@ public class MainController {
     		messageArea.appendText("No negative numbers, please enter a valid balance.\n");
     	}
     }
-
+    
+    /**
+     * Exports all accounts in AccountDatabase to a formatted text file
+     * @param event The semantic event that indicates a user clicked 'Export' button
+     */
     @FXML
     void exportFile(ActionEvent event) {
     	FileChooser chooser = new FileChooser();
@@ -175,10 +200,12 @@ public class MainController {
 		chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
 				new ExtensionFilter("All Files", "*.*"));
 		Stage stage = new Stage();
-		File targeFile = chooser.showSaveDialog(stage); //get the reference of the target file
-		//write code to write to the file.
+		
+		//get the reference of the target file
+		File targeFile = chooser.showSaveDialog(stage); 
 		
 		
+		//writes accounts to text file and exports
 		try {
 			
 			BufferedWriter bf = new BufferedWriter(new FileWriter(targeFile));
@@ -199,6 +226,12 @@ public class MainController {
     }
     
     
+    /**
+     * Imports a formatted (comma separated) text file of accounts
+     * Loads accounts into the AccountDatabase
+     * @param event The semantic event that indicates a user clicked "Import" button
+     * @throws FileNotFoundException Occurs if specified pathname has failed
+     */
     @FXML
     void importFile(ActionEvent event) throws FileNotFoundException{
     	FileChooser chooser = new FileChooser();
@@ -206,7 +239,9 @@ public class MainController {
 		chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
 				new ExtensionFilter("All Files", "*.*"));
 		Stage stage = new Stage();
-		File sourceFile = chooser.showOpenDialog(stage); //get the reference of the source file
+		
+		//get the reference of the source file
+		File sourceFile = chooser.showOpenDialog(stage); 
 		
 		try {
 			
@@ -233,6 +268,7 @@ public class MainController {
 						
 						String accountType = scanner.next();
 						
+						//add Savings account to db
 						if(accountType.equals("S")) {
 								
 							fName = scanner.next();
@@ -250,6 +286,7 @@ public class MainController {
 								
 						}
 						
+						//Add Checking account to db
 						if(accountType.equals("C")) {
 							
 							fName = scanner.next();
@@ -267,7 +304,7 @@ public class MainController {
 							
 						}	
 						
-						
+						//Add Money Market account to db
 						if(accountType.equals("M")) {
 							
 							fName = scanner.next();
@@ -313,18 +350,28 @@ public class MainController {
 			
 	}
 
-
+    
+    /**
+     * Opens an account and adds to the AccountDatabase
+     * @param event The semantic event that indicates user clicked "Open account" button
+     */
     @FXML
     void openAcc(ActionEvent event) {
     	
     	try {
     		
-    		// Create instances of profile and date based on text entry boxes
-        	Profile person = new Profile(fName_OpenClose.getText(), lName_OpenClose.getText());
+    		// Create instances of profile and date based on text entry boxes 		
+        	Profile person = new Profile(fName_OpenClose.getText(), lName_OpenClose.getText());		
         	Date dateOpen = new Date(month.getText() + "/" + day.getText() + "/" + year.getText());
         	double inpBalance = Double.parseDouble(balance.getText());
         	boolean opened = false;
         	
+        	//Check for inputed incomplete names
+    		if(fName_OpenClose.getText().isEmpty() || lName_OpenClose.getText().isEmpty()) {
+    			throw new Exception("Please enter a full name.\n");
+    		}
+    		
+    		//Check for negative inputed values
         	if(inpBalance < 0) {
         		throw new IllegalArgumentException("No negative numbers, please enter a valid balance.\n");
         	}
@@ -333,6 +380,7 @@ public class MainController {
         		
         		String accType = ((RadioButton) tgOpenClose.getSelectedToggle()).getText();
         		
+        		//add account according to account type
         		switch(accType) {
         		case "Checking": 
         			
@@ -395,29 +443,49 @@ public class MainController {
     	catch (IllegalArgumentException e) {
     		messageArea.appendText("No negative numbers, please enter a valid balance.\n");
     	}
+    	catch (Exception e) {
+    		messageArea.appendText("Please enter a full name.\n");
+    	}
     	
     	
     	
     }
 
+    
+    /**
+     * Prints accounts inside the db
+     * @param event The semantic event that indicates user chose "Accounts" option under "Print" tab
+     */
     @FXML
     void printAcc(ActionEvent event) {
     	String accInfo = db.printAccounts();
     	messageArea.setText(accInfo);
     }
 
+    /**
+     * Prints account statements inside the db by date opened
+     * @param event The semantic event that indicates user chose "Statements by Date" under "Print" tab
+     */
     @FXML
     void printByDate(ActionEvent event) {
     	String accInfo = db.printByDateOpen();
     	messageArea.setText(accInfo);
     }
 
+    /**
+     * Prints account statements inside the db by last name
+     * @param event The semantic event that indicates user chose "Statements by Last Name" under "Print" tab
+     */
     @FXML
     void printByLastName(ActionEvent event) {
     	String accInfo = db.printByLastName();
     	messageArea.setText(accInfo);
     }
     
+    /**
+     * Voids specific options in UI if Savings account type is selected
+     * @param event The semantic event that indicates user chose Savings
+     */
     @FXML
     void selectSavings(ActionEvent event) {
     	directDep.setSelected(false);
@@ -426,6 +494,10 @@ public class MainController {
     	isLoyal.setDisable(false);
     }
 
+    /**
+     * Voids specific options in UI if MoneyMarket account type is selected
+     * @param event The semantic event that indicates user chose MoneyMarket
+     */
     @FXML
     void selectMoneyMarket(ActionEvent event) {
     	directDep.setSelected(false);
@@ -434,6 +506,10 @@ public class MainController {
     	isLoyal.setDisable(true);
     }
 
+    /**
+     * Voids specific options in UI if Checking account type is selected
+     * @param event The semantic event that indicates user chose Checking
+     */
     @FXML
     void selectChecking(ActionEvent event) {
     	directDep.setSelected(false);
@@ -442,6 +518,10 @@ public class MainController {
     	isLoyal.setDisable(true);
     }
     
+    /**
+     * Withdraws funds from an account in the AccountDatabase
+     * @param event The semantic event that indicates a user clicked "Withdraw funds" button
+     */
     @FXML
     void withdrawFunds(ActionEvent event) {
     	try {
@@ -456,6 +536,7 @@ public class MainController {
     		
     		String accType = ((RadioButton) tgDepositWithdraw.getSelectedToggle()).getText();
     		
+    		//withdraws funds according to specified account type
     		switch(accType) {
     		case "Checking":
     			Account currCheckingAcc = new Checking(person);
